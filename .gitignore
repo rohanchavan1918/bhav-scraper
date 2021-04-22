@@ -1,0 +1,6 @@
+.vscode
+.env
+venv/
+backend/bhavproject/data/
+backend/bhavproject/bhavproject/__pycache__/
+backend/bhavproject/bhav/__pycache__/
