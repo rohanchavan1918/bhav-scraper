@@ -41,11 +41,13 @@ services:
   celery-flower:
     container_name: celery-flower
     image: bhav_backend
-    command: bash -c "pip install flower && celery flower -A bhavproject --persistent=True --port=8888"
+    command: bash -c "pip install flower celery==4.4.7 && celery flower -A bhavproject --persistent=True --address=0.0.0.0 --port=5555"
     environment:
       C_FORCE_ROOT : "true"
     ports:
       - 5555:5555
+    expose:
+      - 5555
     volumes: 
       - .:/code/
     depends_on: 
