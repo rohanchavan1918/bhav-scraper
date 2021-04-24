@@ -1,24 +1,25 @@
 import requests, csv,zipfile, os
 from io import BytesIO
 from datetime import datetime
-# from bhavproject.settings import BHAV_BASE_URI, CSV_DATA_PATH
+from bhavproject.settings import BHAV_BASE_URI, CSV_DATA_PATH
 import pandas as pd
 from io import TextIOWrapper, StringIO
 from django.core.cache import cache
 
-BHAV_BASE_URI="https://www.bseindia.com/download/BhavCopy/Equity/"
-CSV_DATA_PATH="F://bhav_copy//backend//bhavproject//data//"
+# BHAV_BASE_URI="https://www.bseindia.com/download/BhavCopy/Equity/"
+# CSV_DATA_PATH="F://bhav_copy//backend//bhavproject//data//"
 
 
 class BhavScraper:
     def __init__(self):
+        print("Bhav scraper initialized.")
         self.bhav_file_name = self.get_bhav_filename()
         self.downloaded_bhav_file_path = None
     
     def get_bhav_filename(self) -> 'datetime':
         ''' Generates the bhav file name according to current date '''
         now = datetime.now()
-        todays_date, todays_month = now.day -1, now.month
+        todays_date, todays_month = now.day - 1, now.month
         todays_date = "0"+str(todays_date) if len(str(todays_date)) == 1 else str(todays_date)
         todays_month = "0"+str(todays_month) if len(str(todays_month)) == 1 else str(todays_month)
         todays_year = str(now.year % 100)
@@ -67,13 +68,14 @@ class BhavScraper:
             obj['low'] = d[6]
             obj['close'] = d[7]
             obj['last'] = d[8]
-            success = cache.set(obj['name'],obj,3600)
+            success = cache.set(obj['name'],obj,60 * 60 * 15)
         print("[INFO] New data cached successfully ",datetime.now())
 
     def run(self):
         bhav_data = self.get_bhav_zip_data()
         self.cache_data(bhav_data)
 
+# To run the scraper directly from shell.
 def run_bhav_scraper():
     bhav_scraper = BhavScraper()
     bhav_scraper.run()

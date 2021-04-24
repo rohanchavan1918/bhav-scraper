@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from bhav.views import Search
+from bhav.views import Search, download_file
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('search', Search.as_view()),
+    path('api/search', Search.as_view()),
+    path('api/export', download_file),
+    path('', TemplateView.as_view(template_name="index.html"), name="index"),
 ]

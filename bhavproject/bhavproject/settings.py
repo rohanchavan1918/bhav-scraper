@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from celery.schedules import crontab
+
+
 
 load_dotenv()
 
@@ -42,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'bhav'
-
+    'bhav',
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +66,9 @@ ROOT_URLCONF = 'bhavproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            str(BASE_DIR.joinpath('templates'))
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -153,9 +160,10 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_BEAT_SCHEDULE = {
     'start-scraper': {
        'task': 'bhav.tasks.get_latest_bhav',
-        # Run Every 15 minutes
-       'schedule': 900.0,
+       'schedule': crontab(hour=18),
     },
-    }
+}
 
 BHAV_BASE_URI = os.getenv('BHAV_BASE_URI')
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
