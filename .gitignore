@@ -2,6 +2,7 @@
 .env
 venv/
 venv_linux/
-backend/bhavproject/data/
-backend/bhavproject/bhavproject/__pycache__/
-backend/bhavproject/bhav/__pycache__/
+bhavproject/data/
+bhavproject/bhavproject/__pycache__/*
+bhavproject/bhav/__pycache__/*
+bhavproject/bhavproject/static/

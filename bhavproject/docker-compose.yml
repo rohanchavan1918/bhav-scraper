@@ -1,0 +1,56 @@
+version: "3"
+services:
+
+  web:
+      build: .
+      container_name: bhav_backend
+      image: bhav_backend
+      volumes:
+        - .:/code/
+        - bhav_statics:/code/statics
+      command: bash -c "python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && pip install gunicorn && gunicorn --workers=2 bhavproject.wsgi -b 0.0.0.0:8000"
+      ports:
+        - 8000:8000
+  redis:
+    image: "redis:alpine"
+
+  celery-worker:
+    image: "celery-latest"
+    build: .
+    command: bash -c "celery -A bhavproject worker --loglevel=INFO"
+    environment: 
+      C_FORCE_ROOT : "true"
+      WORKER: "1"
+    volumes:
+      - .:/code/
+    depends_on:
+      - redis
+    
+  celery-beat:
+    container_name: celery-beat
+    image: "celery-latest"
+    restart: always
+    command: bash -c "celery -A bhavproject beat --loglevel=info"
+    environment: 
+      C_FORCE_ROOT : "true"
+    volumes:
+      - .:/code/
+    depends_on: 
+      - redis
+  
+  celery-flower:
+    container_name: celery-flower
+    image: bhav_backend
+    command: bash -c "pip install flower && celery flower -A bhavproject --persistent=True --port=5555"
+    environment:
+      C_FORCE_ROOT : "true"
+    ports:
+      - 5555:5555
+    volumes: 
+      - .:/code/
+    depends_on: 
+      - redis
+
+volumes: 
+  bhav_statics:
+    
