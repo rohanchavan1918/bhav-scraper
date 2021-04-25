@@ -42,15 +42,24 @@ You can use -d flag to run this in background in daemon mode
 Running Project without docker ( Requirements - Redis, celery )
 
 - start a virtual environment.
-		` python -m venv venv `
 
-	` ./venv/Scripts/activate` for linux `source venv/bin/activate`
+` python -m venv venv `
+
+` ./venv/Scripts/activate` for linux `source venv/bin/activate`
+
 - Install project requirements.
-		` pip install -r requirements.txt`
+
+` pip install -r requirements.txt`		
+
 - Create *.env* file according to *env_template.txt* 
+
 - Run the development server 
-		` python manage.py runserver`
+
+` python manage.py runserver`
+
 - In another terminal / cmd start celery and celery beat
-		` celery -A bhavproject worker --loglevel=INFO `
-		` celery -A bhavproject beat --loglevel=info `
+
+	` celery -A bhavproject worker --loglevel=INFO `
+	
+	` celery -A bhavproject beat --loglevel=info `
 		
