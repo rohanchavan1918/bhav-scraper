@@ -16,13 +16,16 @@ http://68.183.90.51/flower/
 
 
 ### Project setup :
-- FIrst clone the repository
+- First clone the repository.
+	
 	`git clone https://github.com/rohanchavan1918/bhav-scraper.git`
 	
 - Enter the project directory
+	
 	`cd bhav-scraper && cd bhav-project`
 	
-- Enter the django root directory ( where settings.py file exists) and create .env file
+- Enter the django root directory ( where settings.py file exists) and create .env file.
+	
 	` cp env_template.txt .env`
 	
 edit the .env file and add your credentials and values.
