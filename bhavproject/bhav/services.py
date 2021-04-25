@@ -22,7 +22,7 @@ class BhavScraper:
             Generates the bhav file name according to current date 
         '''
         now = datetime.now()
-        todays_date, todays_month = now.day - 1, now.month
+        todays_date, todays_month = now.day , now.month
         todays_date = "0"+str(todays_date) if len(str(todays_date)) == 1 else str(todays_date)
         todays_month = "0"+str(todays_month) if len(str(todays_month)) == 1 else str(todays_month)
         todays_year = str(now.year % 100)
