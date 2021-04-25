@@ -18,41 +18,41 @@ services:
     image: "celery-latest"
     build: .
     command: bash -c "celery -A bhavproject worker --loglevel=INFO"
-    environment: 
+    environment:
       C_FORCE_ROOT : "true"
       WORKER: "1"
     volumes:
       - .:/code/
     depends_on:
       - redis
-    
+
   celery-beat:
     container_name: celery-beat
     image: "celery-latest"
     restart: always
     command: bash -c "celery -A bhavproject beat --loglevel=info"
-    environment: 
+    environment:
       C_FORCE_ROOT : "true"
     volumes:
       - .:/code/
-    depends_on: 
+    depends_on:
       - redis
-  
+
   celery-flower:
     container_name: celery-flower
     image: bhav_backend
-    command: bash -c "pip install flower celery==4.4.7 && celery flower -A bhavproject --persistent=True --address=0.0.0.0 --port=5555 --url_prefix=monitor"
+    command: bash -c "pip install flower==0.9.4 celery==4.4.0 && flower -A bhavproject --persistent=True --address=0.0.0.0 --port=5555 --url_prefix=flower"
     environment:
       C_FORCE_ROOT : "true"
     ports:
       - 5555:5555
     expose:
       - 5555
-    volumes: 
+    volumes:
       - .:/code/
-    depends_on: 
+    depends_on:
       - redis
 
-volumes: 
+volumes:
   bhav_statics:
     
